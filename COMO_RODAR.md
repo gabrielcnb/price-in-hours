@@ -7,7 +7,7 @@
 
 ## Instalar dependencias
 ```bash
-cd "C:\Users\gabri\Desktop\price-timer-app"
+cd price-in-hours
 npm install
 ```
 
