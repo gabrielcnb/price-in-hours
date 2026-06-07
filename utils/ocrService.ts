@@ -1,6 +1,6 @@
-// OCR via ocr.space API — funciona em Expo Go sem módulos nativos
+// OCR via ocr.space API, funciona em Expo Go sem módulos nativos
 // Chave gratuita: cadastra em https://ocr.space/ocrapi (25k req/mês grátis)
-// A chave 'helloworld' é demo com limite de 25 req/20s — suficiente pra testar
+// A chave 'helloworld' é demo com limite de 25 req/20s, suficiente pra testar
 
 export interface OcrWord {
   WordText: string;

@@ -10,7 +10,7 @@ React Native app that uses the device camera and on-device OCR to detect prices 
 - Converts each detected price to work-time (e.g. "2h 15min") based on net hourly wage
 - Tax/gross support: enter gross hourly rate and effective tax rate; displays both net and gross work-time
 - Pinch-to-zoom gesture (Reanimated shared values, no race conditions)
-- On-device OCR via Tesseract (TesseractOCR component) — no internet required for scanning
+- On-device OCR via Tesseract (TesseractOCR component); no internet required for scanning
 - Optional cloud fallback via ocr.space API for Expo Go compatibility
 - Wage and currency stored persistently with expo-secure-store
 - Bounding-box overlay drawn in screen coordinates aligned to camera frame geometry
@@ -62,7 +62,7 @@ npx eas build --profile development --platform ios
 ```
 price-timer-app/
 ├── app/
-│   ├── index.tsx        # Entry point — routes to /wage or /camera based on stored wage
+│   ├── index.tsx        # Entry point, routes to /wage or /camera based on stored wage
 │   ├── camera.tsx       # Main camera screen: OCR loop, gestures, overlays, modes
 │   └── wage.tsx         # Wage setup screen
 ├── components/

@@ -166,7 +166,7 @@ export function PriceOverlay({ detections, wage, netWage, currency, taxRate, mod
 
     onPanResponderRelease: (_, gs) => {
       if (!isDragging.current) {
-        // foi um tap simples — sem ação aqui, o TouchableOpacity da box trata
+        // foi um tap simples, sem ação aqui, o TouchableOpacity da box trata
         setSelRect(null);
         return;
       }

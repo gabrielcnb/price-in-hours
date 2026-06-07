@@ -1,4 +1,4 @@
-# Price Timer — Como rodar
+# Price Timer: Como rodar
 
 ## Pre-requisitos (instalar uma vez)
 1. Node.js: https://nodejs.org (versao LTS)
