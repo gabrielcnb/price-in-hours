@@ -1,6 +1,11 @@
-# price-timer-mobile
+# Price in Hours
 
 React Native app that uses the device camera and on-device OCR to detect prices in real time and convert them to hours/minutes of work at your hourly wage.
+
+![Expo](https://img.shields.io/badge/Expo-54-000020?logo=expo&logoColor=white)
+![React Native](https://img.shields.io/badge/React%20Native-0.81-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
 
@@ -33,8 +38,8 @@ React Native app that uses the device camera and on-device OCR to detect prices 
 **Prerequisites:** Node.js, Expo CLI, and either Expo Go or a physical device build (EAS).
 
 ```bash
-git clone https://github.com/gabrielcnb/price-timer-mobile.git
-cd price-timer-mobile
+git clone https://github.com/gabrielcnb/price-in-hours.git
+cd price-in-hours
 npm install
 npx expo start
 ```
@@ -60,7 +65,7 @@ npx eas build --profile development --platform ios
 ## File Structure
 
 ```
-price-timer-app/
+price-in-hours/
 ├── app/
 │   ├── index.tsx        # Entry point, routes to /wage or /camera based on stored wage
 │   ├── camera.tsx       # Main camera screen: OCR loop, gestures, overlays, modes
