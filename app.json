@@ -11,7 +11,7 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Price Timer usa a câmera para detectar preços ao vivo."
+          "cameraPermission": "Price Timer uses the camera to detect prices live."
         }
       ]
     ],

@@ -9,7 +9,7 @@ export interface PriceDetection {
   id: string;
 }
 
-// Símbolos suportados: € $ £ R$ ¥ ₹ ₩ CHF
+// Supported symbols: € $ £ R$ ¥ ₹ ₩ CHF
 const CURRENCY_PREFIX = /([€$£¥₹₩]|R\$|CHF)\s*(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)/g;
 const CURRENCY_SUFFIX = /(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{1,2})?|\d+(?:[.,]\d{1,2})?)\s*([€$£¥₹₩]|R\$|CHF)/g;
 
@@ -30,7 +30,7 @@ function parseAmount(raw: string): number {
   return parseFloat(s);
 }
 
-// Combina bounding boxes de várias palavras num único rect
+// Merges the bounding boxes of several words into a single rect
 function mergeBounds(words: OcrWord[]): { Left: number; Top: number; Width: number; Height: number } {
   const minX = Math.min(...words.map(w => w.Left));
   const minY = Math.min(...words.map(w => w.Top));
@@ -39,17 +39,17 @@ function mergeBounds(words: OcrWord[]): { Left: number; Top: number; Width: numb
   return { Left: minX, Top: minY, Width: maxX - minX, Height: maxY - minY };
 }
 
-// Encontra as palavras que pertencem ao match do preço
+// Finds the words belonging to a price match
 function getPriceWords(words: OcrWord[], matchText: string, currencyChar: string): OcrWord[] {
   if (!words.length) return [];
 
-  // Encontra palavra com o símbolo de moeda
+  // Find the word carrying the currency symbol
   const currIdx = words.findIndex(w =>
     w.WordText.includes(currencyChar) || w.WordText.startsWith(currencyChar)
   );
 
   if (currIdx !== -1) {
-    // Expande para palavras adjacentes com dígitos (preço pode estar fragmentado)
+    // Expand into adjacent words with digits (a price can be split across them)
     const result: OcrWord[] = [words[currIdx]];
     for (let i = currIdx + 1; i < words.length && i <= currIdx + 3; i++) {
       if (/[\d.,]/.test(words[i].WordText)) result.push(words[i]);
@@ -62,7 +62,7 @@ function getPriceWords(words: OcrWord[], matchText: string, currencyChar: string
     return result;
   }
 
-  // Fallback: primeira palavra com dígito
+  // Fallback: first word containing a digit
   const numWord = words.find(w => /\d/.test(w.WordText));
   return numWord ? [numWord] : [words[0]];
 }

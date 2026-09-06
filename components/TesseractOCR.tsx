@@ -1,7 +1,7 @@
 /**
- * OCR 100% local no dispositivo via Tesseract.js rodando numa WebView oculta.
- * Primeira carga: baixa ~8MB de Tesseract do CDN (uma só vez, fica cacheado).
- * OCR em si: roda no motor WebAssembly do iPhone, sem enviar nada pra fora.
+ * Fully on-device OCR: Tesseract.js running inside a hidden WebView.
+ * First load pulls ~8MB of Tesseract from the CDN, once, and caches it.
+ * The OCR itself runs on the iPhone's WebAssembly engine; nothing leaves the device.
  */
 import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
 import { View } from 'react-native';

@@ -32,7 +32,7 @@ export default function CameraScreen() {
   const [selRect, setSelRect] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
   const [tapResults, setTapResults] = useState<PriceDetection[] | null>(null);
 
-  // Zoom via shared values (sem race condition)
+  // Zoom through shared values, which avoids a race condition
   const zoomShared = useSharedValue(0);
   const savedZoom = useSharedValue(0);
   const [zoom, setZoom] = useState(0);
@@ -76,7 +76,7 @@ export default function CameraScreen() {
     return () => clearInterval(interval);
   }, [permission?.granted, loaded, wage, ocrReady, runOCR, mode]);
 
-  // --- Scan de região (tap mode) ---
+  // --- Region scan (tap mode) ---
   const runRegionOCR = useCallback(async (sx: number, sy: number, sw: number, sh: number) => {
     if (!cameraRef.current || !wage || !ocrRef.current?.ready) return;
     setScanning(true);
@@ -129,7 +129,7 @@ export default function CameraScreen() {
     runRegionOCR(x, y, w, h);
   }, [runRegionOCR]);
 
-  // --- Gestures combinados: pinch (2 dedos) + pan (1 dedo, só no modo tap) ---
+  // --- Combined gestures: pinch (2 fingers) + pan (1 finger, tap mode only) ---
   const gestures = useMemo(() => {
     const pinch = Gesture.Pinch()
       .onBegin(() => { savedZoom.value = zoomShared.value; })
@@ -166,7 +166,7 @@ export default function CameraScreen() {
     ? 'Carregando OCR...'
     : scanning ? 'Analisando...'
     : mode === 'tap'
-      ? 'Arraste para selecionar uma área'
+      ? 'Drag to select an area'
       : detections.length > 0
         ? `${detections.length} preco${detections.length > 1 ? 's' : ''} convertido${detections.length > 1 ? 's' : ''}`
         : 'Aponte para precos com € $ £ R$ ¥ ₹';
@@ -183,7 +183,7 @@ export default function CameraScreen() {
           zoom={zoom}
         />
 
-        {/* Replace mode: boxes automáticos */}
+        {/* Replace mode: automatic boxes */}
         {mode === 'replace' && wage && netWage && (
           <PriceOverlay
             detections={detections}
@@ -195,7 +195,7 @@ export default function CameraScreen() {
           />
         )}
 
-        {/* Tap mode: retângulo de seleção */}
+        {/* Tap mode: selection rectangle */}
         {mode === 'tap' && selRect && selRect.w > 4 && selRect.h > 4 && (
           <View
             pointerEvents="none"
@@ -209,7 +209,7 @@ export default function CameraScreen() {
             <View style={styles.cardInner}>
               <View style={styles.handle} />
               {tapResults.length === 0 ? (
-                <Text style={styles.cardEmpty}>Nenhum preço encontrado nessa área</Text>
+                <Text style={styles.cardEmpty}>No prices found in that area</Text>
               ) : (
                 tapResults.map((d) => {
                   const netMin = Math.round((d.value / netWage) * 60);
@@ -227,7 +227,7 @@ export default function CameraScreen() {
                 })
               )}
               <Text style={styles.cardWage}>
-                {currency}{netWage.toFixed(2)}/h líquido{taxRate > 0 ? ` (bruto ${currency}${wage}/h)` : ''}
+                {currency}{netWage.toFixed(2)}/h net{taxRate > 0 ? ` (gross ${currency}${wage}/h)` : ''}
               </Text>
               <TouchableOpacity style={styles.closeBtn} onPress={() => { setTapResults(null); setSelRect(null); }}>
                 <Text style={styles.closeBtnText}>Fechar</Text>
@@ -241,7 +241,7 @@ export default function CameraScreen() {
           <TouchableOpacity onPress={() => router.push('/wage')} style={styles.salaryChip}>
             <Text style={styles.salaryIcon}>⏱</Text>
             <Text style={styles.salaryText}>
-              {wage !== null ? `${currency}${wage}/h` : 'Definir salário'}
+              {wage !== null ? `${currency}${wage}/h` : 'Set wage'}
             </Text>
           </TouchableOpacity>
 

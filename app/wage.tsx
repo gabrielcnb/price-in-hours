@@ -32,11 +32,11 @@ export default function WageScreen() {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps="handled">
-        <Text style={styles.title}>Configurar salário</Text>
+        <Text style={styles.title}>Set your wage</Text>
 
-        {/* Salário */}
+        {/* Wage */}
         <View style={styles.section}>
-          <Text style={styles.label}>Salário bruto por hora</Text>
+          <Text style={styles.label}>Gross hourly wage</Text>
           <View style={styles.inputRow}>
             <Text style={styles.currencyLabel}>{selectedCountry.symbol}</Text>
             <TextInput
@@ -52,12 +52,12 @@ export default function WageScreen() {
           </View>
         </View>
 
-        {/* País */}
+        {/* Country */}
         <View style={styles.section}>
-          <Text style={styles.label}>País (para cálculo de impostos)</Text>
+          <Text style={styles.label}>Country (used for the tax rate)</Text>
           <TextInput
             style={styles.searchInput}
-            placeholder="Pesquisar país..."
+            placeholder="Search country..."
             placeholderTextColor="rgba(255,255,255,0.3)"
             value={search}
             onChangeText={setSearch}
@@ -74,7 +74,7 @@ export default function WageScreen() {
                 <View style={styles.countryInfo}>
                   <Text style={styles.countryName}>{c.name}</Text>
                   <Text style={styles.countryTax}>
-                    {c.rate > 0 ? `~${Math.round(c.rate * 100)}% imposto` : 'Sem imposto'}
+                    {c.rate > 0 ? `~${Math.round(c.rate * 100)}% tax` : 'No tax'}
                   </Text>
                 </View>
                 {selectedCountry.code === c.code && (
@@ -89,10 +89,10 @@ export default function WageScreen() {
         {isValid && (
           <View style={styles.preview}>
             <Text style={styles.previewText}>
-              Bruto: {selectedCountry.symbol}{parseFloat(amount.replace(',', '.'))}/h
+              Gross: {selectedCountry.symbol}{parseFloat(amount.replace(',', '.'))}/h
             </Text>
             <Text style={styles.previewNet}>
-              Líquido: {selectedCountry.symbol}{(parseFloat(amount.replace(',', '.')) * (1 - selectedCountry.rate)).toFixed(2)}/h
+              Net: {selectedCountry.symbol}{(parseFloat(amount.replace(',', '.')) * (1 - selectedCountry.rate)).toFixed(2)}/h
               {selectedCountry.rate > 0 && ` (−${Math.round(selectedCountry.rate * 100)}%)`}
             </Text>
           </View>
@@ -104,7 +104,7 @@ export default function WageScreen() {
           disabled={!isValid}
           activeOpacity={0.8}
         >
-          <Text style={styles.buttonText}>Salvar e continuar</Text>
+          <Text style={styles.buttonText}>Save and continue</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

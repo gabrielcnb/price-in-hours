@@ -110,8 +110,8 @@ function PriceCard({ detections, wage, netWage, currency, taxRate, onClose }: {
         })}
 
         <Text style={styles.cardWage}>
-          {currency}{netWage.toFixed(2)}/h líquido
-          {hasTax ? ` (bruto ${currency}${wage}/h)` : ''}
+          {currency}{netWage.toFixed(2)}/h net
+          {hasTax ? ` (gross ${currency}${wage}/h)` : ''}
         </Text>
 
         <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
@@ -122,7 +122,7 @@ function PriceCard({ detections, wage, netWage, currency, taxRate, onClose }: {
   );
 }
 
-// ─── Helpers de intersecção ───────────────────────────────────────────────────
+// ─── Intersection helpers ─────────────────────────────────────────────────────
 function rectsIntersect(
   ax: number, ay: number, aw: number, ah: number,
   bx: number, by: number, bw: number, bh: number,
@@ -138,7 +138,7 @@ export function PriceOverlay({ detections, wage, netWage, currency, taxRate, mod
   const dragStart = useRef({ x: 0, y: 0 });
   const isDragging = useRef(false);
 
-  // Limpa seleção quando muda o scan
+  // Clear the selection whenever the scan changes
   useEffect(() => {
     const ids = new Set(detections.map(d => d.id));
     setSelectedIds(prev => new Set([...prev].filter(id => ids.has(id))));
@@ -166,11 +166,11 @@ export function PriceOverlay({ detections, wage, netWage, currency, taxRate, mod
 
     onPanResponderRelease: (_, gs) => {
       if (!isDragging.current) {
-        // foi um tap simples, sem ação aqui, o TouchableOpacity da box trata
+        // a plain tap: nothing to do here, the box's TouchableOpacity handles it
         setSelRect(null);
         return;
       }
-      // Seleciona todas as detections que intersectam o rect de seleção
+      // Select every detection intersecting the selection rect
       const x = Math.min(dragStart.current.x, dragStart.current.x + gs.dx);
       const y = Math.min(dragStart.current.y, dragStart.current.y + gs.dy);
       const w = Math.abs(gs.dx);
@@ -201,7 +201,7 @@ export function PriceOverlay({ detections, wage, netWage, currency, taxRate, mod
   return (
     <>
       <View style={StyleSheet.absoluteFill} pointerEvents="box-none" {...panResponder.panHandlers}>
-        {/* Retângulo de seleção */}
+        {/* Selection rectangle */}
         {selRect && (
           <View style={[styles.selRect, {
             left: selRect.x, top: selRect.y,
